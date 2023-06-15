@@ -9,7 +9,7 @@ class Player{
         }
     }
 
-    async findName(name){
+    async validationName(name){
         try{
             const result = await knex.select("*").from("players").where({name:name});
             if(result.length>0){
@@ -21,6 +21,19 @@ class Player{
 
         }
       
+    }
+    async findPlayer(searchData){
+        try{
+            var result = await knex.select('*').table("players")
+            .where({name: searchData}).orWhere({numjersey:searchData}).orWhere({position: searchData});
+            if(result.length > 0){
+                return result;
+            }else{
+                return undefined;
+            }
+        }catch(err){
+            console.log(err);
+        }
     }
 }
 
