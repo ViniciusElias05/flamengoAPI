@@ -1,4 +1,5 @@
 const Player = require("../models/Player");
+const Stats = require("../models/Stats");
 
 class PlayerController{
     async create(req,res){
@@ -49,13 +50,14 @@ class PlayerController{
     async findPlayer(req,res){
         const id = req.params.id;
         const player = await Player.findById(id);
+        const stats = await Stats.findByPlayer_id(id);
 
         if(player == undefined){
             res.status(404);
             res.send("Jogador não existente!");
             return;
         }
-            res.json(player);
+            res.json({Player: player, Stats: stats});
 
 
     }
